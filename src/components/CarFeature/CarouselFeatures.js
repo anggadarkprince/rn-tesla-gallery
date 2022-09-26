@@ -2,23 +2,21 @@ import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import {Video} from "expo-av";
 
-function CarouselFeatures({features, delay, autoStart}) {
+function CarouselFeatures({features, delay}) {
     const [index, setIndex] = useState(0);
 
-    if (autoStart) {
-        useEffect(() => {
-            const interval = setInterval(() => {
-                setIndex(index => {
-                    const currentIndex = index + 1;
-                    if (currentIndex >= features.length) {
-                        return 0;
-                    }
-                    return currentIndex;
-                });
-            }, delay || 5000);
-            return () => clearInterval(interval);
-        }, []);
-    }
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setIndex(index => {
+                const currentIndex = index + 1;
+                if (currentIndex >= features.length) {
+                    return 0;
+                }
+                return currentIndex;
+            });
+        }, delay || 5000);
+        return () => clearInterval(interval);
+    }, []);
 
     return (
         <View style={styles.featureWrapper}>
@@ -31,7 +29,7 @@ function CarouselFeatures({features, delay, autoStart}) {
             />
             <View style={styles.contentWrapper}>
                 <View style={styles.paginationWrapper}>
-                    {features.map((item, idx) => <View
+                    {features.map((item, idx) => <View key={`carousel-feature-${idx}`}
                         style={[styles.pagination, {backgroundColor: index === idx ? '#ffffff' : '#888888'}]}/>)}
                 </View>
                 <Text style={styles.title}>{features[index].title}</Text>
@@ -48,7 +46,7 @@ const styles = StyleSheet.create({
     paginationWrapper: {flexDirection: 'row', marginBottom: 20},
     pagination: {width: 10, height: 10, borderRadius: 5, marginEnd: 10},
     title: {color: 'white', fontWeight: 'bold', marginBottom: 10, fontSize: 16},
-    description: {color: 'white', marginBottom: 15}
+    description: {color: 'white', marginBottom: 15, height: 80}
 });
 
 export default CarouselFeatures;

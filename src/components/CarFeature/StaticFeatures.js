@@ -3,8 +3,8 @@ import {StyleSheet, View, Text, Image} from 'react-native';
 import {Video} from "expo-av";
 
 function StaticFeatures({features}) {
-    return features.map(feature => (
-        <View style={styles.featureWrapper}>
+    return features.map((feature, idx) => (
+        <View style={styles.featureWrapper} key={`static-feature-${idx}`}>
             {feature.video ? <Video
                 source={feature.video}
                 shouldPlay={true}

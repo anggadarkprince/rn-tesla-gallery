@@ -1,10 +1,11 @@
 import React from 'react';
-import {StyleSheet, View, Text, ImageBackground, Image, ScrollView} from 'react-native';
-import { Video, AVPlaybackStatus } from 'expo-av';
+import {StyleSheet, View, Text, Image, ScrollView} from 'react-native';
 import Header from "../../components/Header";
 import {StatusBar} from "expo-status-bar";
 import {OutlineButton} from "../../components/Button";
-import {CarouselFeatures, StaticFeatures} from "../../components/CarFeature";
+import {CarouselFeatures, ImageFeature, StaticFeatures} from "../../components/CarFeature";
+import {VariantList} from "../../components/CarVariant";
+import {CarModelHero} from "../../components/CarHero";
 
 const interiorFeatures = [
     {
@@ -52,73 +53,102 @@ const staticFeatures = [
     },
 ];
 
+const variants = [
+    {
+        model: 'Model S',
+        type: '',
+        hero: require('../../../assets/models/model-s/Model-S-Main-Hero-Mobile-LHD.jpg'),
+        performanceImage: require('../../../assets/models/model-s/Model-S-Performance-Hero-Mobile-LHD.jpg'),
+        image: require('../../../assets/models/model-s/Model-S-Performance-Dual-Motor-Mobile.jpg'),
+        description: 'Dual Motor All-Wheel Drive unlocks more range than any other vehicle in our current lineup, with insane power and maximum control.',
+        performances: [
+            {'value': '3.1 s', 'indicator': '0-60 mph', main: true},
+            {'value': '405 mi', 'indicator': 'Range (EPA Est.)', main: true},
+            {'value': '60 hp', 'indicator': 'Peak Power', main: true},
+            {'value': '180 mph', 'indicator': 'Top Speed', main: false},
+        ],
+    },
+    {
+        model: 'Model S',
+        type: 'Plaid',
+        hero: require('../../../assets/models/model-s/Model-S-Main-Hero-Mobile-LHD.jpg'),
+        performanceImage: require('../../../assets/models/model-s/Model-S-Performance-Hero-Mobile-LHD.jpg'),
+        image: require('../../../assets/models/model-s/Model-S-Performance-Tri-Motor-Mobile.jpg'),
+        description: 'Maintain 1,000+ horsepower all the way to 200 mph with Tri-Motor All-Wheel Drive, featuring torque vectoring and three independent carbon-sleeved rotors.',
+        performances: [
+            {'value': '1.99 s', 'indicator': '0-60 mph', main: true},
+            {'value': '396 mi', 'indicator': 'Range (EPA Est.)', main: true},
+            {'value': '1,020 hp', 'indicator': 'Peak Power', main: true},
+            {'value': '200 mph', 'indicator': 'Top Speed', main: false},
+        ],
+        exteriors: [
+            {
+                image: {uri: 'https://tesla-cdn.thron.com/delivery/public/image/tesla/29bf097c-c1b5-4b46-b2b0-d2f4c00c686d/bvlatuR/std/3949x2217/Model-S-Exterior-Grid-A-Mobile-Global'},
+                title: 'Relentless Performance',
+                description: 'Staggered, performance wheels and tires keep the car planted and help transfer maximum power down to the road.'
+            },
+            {
+                video: {uri: 'https://tesla-cdn.thron.com/delivery/public/image/tesla/a1725f15-9dc1-45b9-bdea-d34de393557d/bvlatuR/std/3840x2156/Model-S-Exterior-Grid-B-Mobile-Global'},
+                title: 'Optimized Aerodynamics',
+                description: 'Attention to detail on all exterior surfaces makes Model S the most aerodynamic production car on Earth.'
+            },
+            {
+                image: {uri: 'https://tesla-cdn.thron.com/delivery/public/image/tesla/10daec58-1d1c-4037-8896-d9c72aaf34d7/bvlatuR/std/3657x2039/Model-S-Exterior-Grid-C-Mobile-Global'},
+                title: 'Refined Styling',
+                description: 'An iconic silhouette meets refreshed, elegant proportions.'
+            },
+        ]
+    },
+];
+
 function ModelScreen() {
     return (
         <View style={styles.container}>
             <Header/>
             <ScrollView style={{height: '100%'}}>
                 <View style={{backgroundColor: 'black'}}>
-                    <ImageBackground style={styles.image} source={require('../../../assets/models/model-s/Model-S-Main-Hero-Mobile-LHD.jpg')}>
-                        <View style={styles.titleWrapper}>
-                            <Text style={styles.title}>Model S</Text>
-                            <Text style={styles.subtitle}>Plaid</Text>
-                        </View>
-                        <View style={styles.performanceContainer}>
-                            <View style={styles.performanceInfoContainer}>
-                                <View>
-                                    <Text style={styles.performanceIndicatorValue}>396 mi</Text>
-                                    <Text style={styles.performanceIndicator}>Range (EPA est.)</Text>
-                                </View>
-                                <View>
-                                    <Text style={styles.performanceIndicatorValue}>1.99 s</Text>
-                                    <Text style={styles.performanceIndicator}>0-60 mph</Text>
-                                </View>
-                                <View>
-                                    <Text style={styles.performanceIndicatorValue}>200 mph</Text>
-                                    <Text style={styles.performanceIndicator}>Top Speed</Text>
-                                </View>
-                            </View>
-                            <OutlineButton type="secondary" content={"Order Now"} onPress={() => console.log}/>
-                        </View>
-                    </ImageBackground>
-                    <View>
-                        <Text style={{color: 'white', fontSize: 27, textAlign: 'center', fontWeight: 'bold', marginBottom: 50}}>Interior of the Future</Text>
-                        <Image style={{width: '100%', height: 400, resizeMode: 'cover'}} source={require('../../../assets/models/model-s/MS-Interior-Hero-Mobile.jpg')}/>
-                    </View>
-                    <CarouselFeatures features={interiorFeatures} delay={2000}/>
+                    <CarModelHero car={variants[1]}/>
+
+                    <ImageFeature title="Interior of the Future" image={require('../../../assets/models/model-s/MS-Interior-Hero-Mobile.jpg')}/>
+
+                    <CarouselFeatures features={interiorFeatures} delay={15000}/>
 
                     <StaticFeatures features={staticFeatures}/>
                 </View>
                 <View style={{backgroundColor: 'white'}}>
-                    <ImageBackground style={[styles.image, {height: 400}]} source={require('../../../assets/models/model-s/Model-S-Performance-Hero-Mobile-LHD.jpg')}>
-                        <View style={[styles.performanceContainer, {bottom: 20}]}>
-                            <View style={styles.performanceInfoContainer}>
-                                <View>
-                                    <Text style={styles.performanceIndicatorValue}>1,020 hp</Text>
-                                    <Text style={styles.performanceIndicator}>Range (EPA est.)</Text>
-                                </View>
-                                <View>
-                                    <Text style={styles.performanceIndicatorValue}>9.23 s</Text>
-                                    <Text style={styles.performanceIndicator}>@155 mph 1/4 mile</Text>
-                                </View>
-                                <View>
-                                    <Text style={styles.performanceIndicatorValue}>1.99 s</Text>
-                                    <Text style={styles.performanceIndicator}>0-60 mph</Text>
-                                </View>
-                            </View>
-                        </View>
-                    </ImageBackground>
+                    <CarModelHero
+                        car={variants[0]}
+                        image={require('../../../assets/models/model-s/Model-S-Performance-Hero-Mobile-LHD.jpg')}
+                        imageStyle={{height: 450}}
+                        ctaShown={false}
+                        titleShown={false}
+                    />
+
                     <View style={{marginHorizontal: 20, marginVertical: 30}}>
                         <Text style={{fontSize: 14, fontWeight: 'light'}}>Plaid</Text>
                         <Text style={{fontSize: 22, fontWeight: 'bold', marginBottom: 10}}>Beyond Ludicrous</Text>
                         <Text style={{marginBottom: 20}}>Model S Plaid has the quickest acceleration of any vehicle in production. Updated battery architecture for all Model S trims enables back-to-back track runs without performance degradation. Chat with a Tesla Advisor to learn more about Model S.</Text>
                         <OutlineButton type="primary" content={"Order Now"} onPress={() => console.log}/>
                     </View>
-                    <View style={{backgroundColor: '#f3f3f3', paddingHorizontal: 20, paddingVertical: 30}}>
-                        <Text style={{fontSize: 22, fontWeight: 'bold', marginBottom: 10}}>Electric Powertrain</Text>
-                        <Text style={{marginBottom: 20}}> Model S platforms unite powertrain and battery technologies for unrivaled performance, range and efficiency. New module and pack thermal architecture allows faster charging and gives you more power and endurance in all conditions.</Text>
-                        <OutlineButton type="primary" content={"Order Now"} onPress={() => console.log}/>
+                    <View style={{backgroundColor: '#f3f3f3'}}>
+                        <View style={{paddingHorizontal: 20, paddingVertical: 30}}>
+                            <Text style={{fontSize: 22, fontWeight: 'bold', marginBottom: 10}}>Electric Powertrain</Text>
+                            <Text>Model S platforms unite powertrain and battery technologies for unrivaled performance, range and efficiency. New module and pack thermal architecture allows faster charging and gives you more power and endurance in all conditions.</Text>
+                        </View>
+                        <VariantList variants={variants}/>
                     </View>
+                </View>
+
+                <View style={{backgroundColor: 'black'}}>
+                    <Image style={{resizeMode: 'cover', height: 300, width: '100%'}} source={require('../../../assets/models/model-s/Model-S-Exterior-Hero-Mobile-Global.jpg')}/>
+                    <View style={{padding: 20, marginBottom: 40}}>
+                        <Text style={{color: 'white'}}>Exterior</Text>
+                        <Text style={{fontWeight: 'bold', fontSize: 18, color: 'white', marginBottom: 15}}>Designed for Efficiency</Text>
+                        <Text style={{color: 'white', marginBottom: 20}}>With a drag coefficient of just .208 Cd, the lowest on the planet, Model S is built for speed, endurance and range. Improved aerodynamics and a wider chassis offer more responsive performance so you can take corners quicker and with more confidence.</Text>
+                        <OutlineButton type="secondary" content={"Order Now"} onPress={() => console.log}/>
+                    </View>
+
+                    <StaticFeatures features={variants[1].exteriors}/>
                 </View>
             </ScrollView>
 
@@ -134,43 +164,6 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
     },
-    image: {
-        height: 700,
-        width: '100%',
-        resizeMode: 'cover',
-    },
-    titleWrapper: {
-        marginTop: '30%',
-        width: '100%',
-        alignItems: 'center'
-    },
-    title: {
-        fontSize: 40,
-        fontWeight: 'bold',
-    },
-    subtitle: {
-        fontSize: 16,
-    },
-    performanceContainer: {
-        paddingHorizontal: 20,
-        position: 'absolute',
-        bottom: 50,
-        width: '100%'
-    },
-    performanceInfoContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        marginBottom: 30
-    },
-    performanceIndicatorValue: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        color: 'white',
-    },
-    performanceIndicator: {
-        fontSize: 14,
-        color: 'white',
-    }
 });
 
 export {ModelScreen, MODEL_SCREEN};

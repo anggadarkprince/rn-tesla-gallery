@@ -3,8 +3,12 @@ import {StyleSheet, View} from 'react-native';
 import Header from "../../components/Header";
 import CarList from "../../components/CarList";
 import {StatusBar} from "expo-status-bar";
+import {useNavigation} from '@react-navigation/native';
 
 function HomeScreen({navigation}) {
+    if (!navigation) {
+        navigation = useNavigation();
+    }
     return (
         <View style={styles.container}>
             <Header navigation={navigation}/>
