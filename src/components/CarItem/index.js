@@ -1,9 +1,16 @@
 import React from 'react';
 import {ImageBackground, StyleSheet, Text, View, Dimensions} from "react-native";
-import FlatButton from "../FlatButton";
+import {FlatButton} from "../Button";
+import {useNavigation} from '@react-navigation/native';
 
-function CarItem(props) {
-    const {name, tagline, taglineCTA, image} = props.car;
+function CarItem({ car }) {
+    const {name, tagline, taglineCTA, image} = car;
+    const navigation = useNavigation();
+
+    const onViewModel = () => {
+        navigation.navigate('Model');
+    }
+
     return (
         <View style={styles.carContainer}>
             <ImageBackground style={styles.image} source={image}>
@@ -15,8 +22,8 @@ function CarItem(props) {
                     </Text>
                 </View>
                 <View style={styles.buttonContainer}>
-                    <FlatButton type="primary" content={"Customer Order"} onPress={() => console.log}/>
-                    <FlatButton type="secondary" content={"Existing Inventory"} onPress={() => console.log}/>
+                    <FlatButton type="primary" content={"Customer Design"} onPress={() => console.log}/>
+                    <FlatButton type="secondary" content={"Existing Inventory"} onPress={onViewModel}/>
                 </View>
             </ImageBackground>
         </View>

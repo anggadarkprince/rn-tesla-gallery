@@ -1,24 +1,21 @@
-import {StatusBar} from 'expo-status-bar';
-import {StyleSheet, View} from 'react-native';
 import React from "react";
-import CarList from "./src/components/CarList";
-import Header from "./src/components/Header";
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {HOME_SCREEN} from './src/screens/Home';
+import {DESIGN_SCREEN, DesignScreen} from "./src/screens/Design";
+import {HomeDrawer} from "./src/navigations/HomeDrawer";
+import {SUPPORT_SCREEN, SupportScreen} from "./src/screens/Support";
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
     return (
-        <View style={styles.container}>
-            <Header/>
-            <CarList/>
-            <StatusBar style="auto"/>
-        </View>
+        <NavigationContainer>
+            <Stack.Navigator initialRouteName={HOME_SCREEN}>
+                <Stack.Screen name={HOME_SCREEN} component={HomeDrawer} options={{headerShown: false}}/>
+                <Stack.Screen name={DESIGN_SCREEN} component={DesignScreen} options={{headerShown: false}}/>
+                <Stack.Screen name={SUPPORT_SCREEN} component={SupportScreen}/>
+            </Stack.Navigator>
+        </NavigationContainer>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-});

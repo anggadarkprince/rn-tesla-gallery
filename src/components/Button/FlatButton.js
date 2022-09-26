@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, Pressable, StyleSheet} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 
 function FlatButton(props) {
     const type = props.type;
@@ -8,11 +8,11 @@ function FlatButton(props) {
 
     return (
         <View style={styles.container}>
-            <Pressable style={[styles.button, {backgroundColor}]} onPress={props.onPress}>
+            <TouchableOpacity style={[styles.button, {backgroundColor}]} onPress={props.onPress}>
                 <Text style={[styles.text, {color: textColor}]}>
                     {props.content}
                 </Text>
-            </Pressable>
+            </TouchableOpacity>
         </View>
     );
 }

@@ -1,11 +1,17 @@
 import React from 'react';
-import {StyleSheet, View, Image, Text} from 'react-native';
+import {StyleSheet, View, Image, TouchableOpacity} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
-function Header() {
+function Header({navigation}) {
     return (
         <View style={styles.container}>
             <Image style={styles.logo} source={require('../../../assets/images/logo.png')}/>
-            <Image style={styles.menu} source={require('../../../assets/images/menu.png')}/>
+            <TouchableOpacity onPress={() => {
+                console.log('press')
+                navigation.toggleDrawer();
+            }}>
+                <Image style={styles.menu} source={require('../../../assets/images/menu.png')}/>
+            </TouchableOpacity>
         </View>
     );
 }
