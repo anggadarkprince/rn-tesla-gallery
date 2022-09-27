@@ -3,9 +3,10 @@ import {StyleSheet, View, Text, Image, ScrollView} from 'react-native';
 import Header from "../../components/Header";
 import {StatusBar} from "expo-status-bar";
 import {OutlineButton} from "../../components/Button";
-import {CarouselFeatures, ImageFeature, StaticFeatures} from "../../components/CarFeature";
+import {CarouselFeatures, ImageFeature, StaticFeatures, SectionFeature} from "../../components/CarFeature";
 import {VariantList} from "../../components/CarVariant";
 import {CarModelHero} from "../../components/CarHero";
+import {CarouselCard} from "../../components/Carousel";
 
 const interiorFeatures = [
     {
@@ -81,6 +82,47 @@ const variants = [
             {'value': '1,020 hp', 'indicator': 'Peak Power', main: true},
             {'value': '200 mph', 'indicator': 'Top Speed', main: false},
         ],
+        exteriorFeature: {
+            featured: {
+                type: 'image',
+                source: require('../../../assets/models/model-s/Model-S-Exterior-Hero-Mobile-Global.jpg')
+            },
+            label: 'Exterior',
+            feature: 'Designed for Efficiency',
+            description: 'With a drag coefficient of just .208 Cd, the lowest on the planet, Model S is built for speed, endurance and range. Improved aerodynamics and a wider chassis offer more responsive performance so you can take corners quicker and with more confidence.'
+        },
+        accelerationFeature: {
+            label: 'Plaid',
+            feature: 'Beyond Ludicrous',
+            description: 'Model S Plaid has the quickest acceleration of any vehicle in production. Updated battery architecture for all Model S trims enables back-to-back track runs without performance degradation. Chat with a Tesla Advisor to learn more about Model S.'
+        },
+        mileageFeature: {
+            featured: {
+                type: 'video',
+                source: {uri: 'https://tesla-cdn.thron.com/delivery/public/video/tesla/b0027831-1bb2-463c-bacd-905389c33a9a/bvlatuR/WEBHD/MS-Range-Hero-Mobile'}
+            },
+            label: 'Range',
+            feature: 'Go Anywhere',
+            description: 'With up to 405 miles of estimated range and access to the world’s largest and most powerful fast charging network, you’ll spend less time plugged in and more time on the road. Chat with a Tesla Advisor to learn more about Model S.'
+        },
+        safetyFeature: {
+            featured: {
+                type: 'image',
+                source: {uri: 'https://tesla-cdn.thron.com/delivery/public/image/tesla/9dbc96d7-f4ab-42d8-a044-fa067b2db86e/bvlatuR/std/1570x1864/Model-S-Safety-Hero-Mobile-Global-960x1140'}
+            },
+            label: 'Safety',
+            feature: 'High Impact Protection',
+            description: 'Model S is built from the ground up as an electric vehicle, with a high-strength architecture and floor-mounted battery pack for incredible occupant protection and low rollover risk. Every new Model S includes Tesla’s latest active safety features, such as Automatic Emergency Braking, at no extra cost.'
+        },
+        drivingFeature: {
+            featured: {
+                type: 'image',
+                source: {uri: 'https://tesla-cdn.thron.com/delivery/public/image/tesla/a637a5e9-c033-4774-b654-e1a27c2cf0b4/bvlatuR/std/1600x1900/Autopilot-Hero-Vision-Mobile'}
+            },
+            label: 'Autopilot',
+            feature: 'Future of Driving',
+            description: ' Autopilot enables your car to steer, accelerate and brake automatically within its lane under your active supervision, assisting with the most burdensome parts of driving. With over-the-air software updates, the latest enhancements are available instantly. Chat with a Tesla Advisor to learn more about Model S.'
+        },
         exteriors: [
             {
                 image: {uri: 'https://tesla-cdn.thron.com/delivery/public/image/tesla/29bf097c-c1b5-4b46-b2b0-d2f4c00c686d/bvlatuR/std/3949x2217/Model-S-Exterior-Grid-A-Mobile-Global'},
@@ -97,7 +139,42 @@ const variants = [
                 title: 'Refined Styling',
                 description: 'An iconic silhouette meets refreshed, elegant proportions.'
             },
-        ]
+        ],
+    },
+];
+
+const autopilots = [
+    {
+        featured: {
+            type: 'video',
+            source: {uri: 'https://tesla-cdn.thron.com/delivery/public/video/tesla/74b8f01e-5020-438b-be44-446e5975c54c/bvlatuR/WEBHD/Model_S_Navigate_0'}
+        },
+        title: 'Navigate on Autopilot',
+        description: 'Active guidance from on-ramp to off-ramp'
+    },
+    {
+        featured: {
+            type: 'video',
+            source: {uri: 'https://tesla-cdn.thron.com/static/A7I6LP_lane_change_0.mp4-2000_PYSUF4.mp4'}
+        },
+        title: 'Auto Lane Change',
+        description: 'Automatically change lanes while driving on the highway'
+    },
+    {
+        featured: {
+            type: 'video',
+            source: {uri: 'https://tesla-cdn.thron.com/delivery/public/video/tesla/14877527-9b58-40e9-8a5e-fc47c4afb126/bvlatuR/WEBHD/summon_1'}
+        },
+        title: 'Summon',
+        description: 'Automatically retrieve your car'
+    },
+    {
+        featured: {
+            type: 'video',
+            source: {uri: 'https://tesla-cdn.thron.com/delivery/public/video/tesla/53faf083-f129-4c48-a28f-0f56c8ca5d90/bvlatuR/WEBHD/parking'}
+        },
+        title: 'Autopark',
+        description: 'Parallel and perpendicular parking with a single touch'
     },
 ];
 
@@ -105,8 +182,8 @@ function ModelScreen() {
     return (
         <View style={styles.container}>
             <Header/>
-            <ScrollView style={{height: '100%'}}>
-                <View style={{backgroundColor: 'black'}}>
+            <ScrollView style={styles.scrollContainer}>
+                <View style={styles.darkSection}>
                     <CarModelHero car={variants[1]}/>
 
                     <ImageFeature title="Interior of the Future" image={require('../../../assets/models/model-s/MS-Interior-Hero-Mobile.jpg')}/>
@@ -115,7 +192,7 @@ function ModelScreen() {
 
                     <StaticFeatures features={staticFeatures}/>
                 </View>
-                <View style={{backgroundColor: 'white'}}>
+                <View style={styles.lightSection}>
                     <CarModelHero
                         car={variants[0]}
                         image={require('../../../assets/models/model-s/Model-S-Performance-Hero-Mobile-LHD.jpg')}
@@ -124,12 +201,8 @@ function ModelScreen() {
                         titleShown={false}
                     />
 
-                    <View style={{marginHorizontal: 20, marginVertical: 30}}>
-                        <Text style={{fontSize: 14, fontWeight: 'light'}}>Plaid</Text>
-                        <Text style={{fontSize: 22, fontWeight: 'bold', marginBottom: 10}}>Beyond Ludicrous</Text>
-                        <Text style={{marginBottom: 20}}>Model S Plaid has the quickest acceleration of any vehicle in production. Updated battery architecture for all Model S trims enables back-to-back track runs without performance degradation. Chat with a Tesla Advisor to learn more about Model S.</Text>
-                        <OutlineButton type="primary" content={"Order Now"} onPress={() => console.log}/>
-                    </View>
+                    <SectionFeature feature={variants[1].accelerationFeature} color="black"/>
+
                     <View style={{backgroundColor: '#f3f3f3'}}>
                         <View style={{paddingHorizontal: 20, paddingVertical: 30}}>
                             <Text style={{fontSize: 22, fontWeight: 'bold', marginBottom: 10}}>Electric Powertrain</Text>
@@ -139,16 +212,30 @@ function ModelScreen() {
                     </View>
                 </View>
 
-                <View style={{backgroundColor: 'black'}}>
-                    <Image style={{resizeMode: 'cover', height: 300, width: '100%'}} source={require('../../../assets/models/model-s/Model-S-Exterior-Hero-Mobile-Global.jpg')}/>
-                    <View style={{padding: 20, marginBottom: 40}}>
-                        <Text style={{color: 'white'}}>Exterior</Text>
-                        <Text style={{fontWeight: 'bold', fontSize: 18, color: 'white', marginBottom: 15}}>Designed for Efficiency</Text>
-                        <Text style={{color: 'white', marginBottom: 20}}>With a drag coefficient of just .208 Cd, the lowest on the planet, Model S is built for speed, endurance and range. Improved aerodynamics and a wider chassis offer more responsive performance so you can take corners quicker and with more confidence.</Text>
-                        <OutlineButton type="secondary" content={"Order Now"} onPress={() => console.log}/>
-                    </View>
-
+                <View style={styles.darkSection}>
+                    <SectionFeature feature={variants[1].exteriorFeature} color="white"/>
                     <StaticFeatures features={variants[1].exteriors}/>
+                </View>
+
+                <View style={styles.lightSection}>
+                    <SectionFeature feature={variants[1].mileageFeature} color="black"/>
+                    <SectionFeature feature={variants[1].safetyFeature} color="black"/>
+                    <SectionFeature feature={variants[1].drivingFeature} color="black"/>
+                    <SectionFeature feature={{feature: 'Features', description: 'Enhanced Autopilot and Full Self-Driving capability introduce additional features and improve existing functionality to make your car more capable over time, including:'}} color="black" ctaShown={false}/>
+                    <CarouselCard items={autopilots}/>
+                    <View style={{marginBottom: 20}}>
+                        <Text style={{fontWeight: 'bold', fontSize: 18, color: 'white', marginBottom: 15}}>Model S</Text>
+                        <View>
+                            <OutlineButton type="primary" content={"Order Now"} onPress={() => console.log}/>
+                            <OutlineButton type="primary" content={"Compare"} onPress={() => console.log}/>
+                        </View>
+                        <Image style={styles.image} source={{uri: 'https://tesla-cdn.thron.com/delivery/public/image/tesla/e00bf240-9973-494f-a217-786b736d8dde/bvlatuR/std/3840x2128/Model-S-Order-Hero-Desktop-Mobile-Global'}}/>
+                    </View>
+                    <Text style={{fontSize: 12, color: 'gray'}}>
+                        Certain high data usage vehicle features require at least Standard Connectivity, including maps,
+                        navigation and voice commands. Access to features that use cellular data and third-party licenses
+                        are subject to change. Learn more about Standard Connectivity and any limitations.
+                    </Text>
                 </View>
             </ScrollView>
 
@@ -164,6 +251,15 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
     },
+    scrollContainer: {
+        height: '100%'
+    },
+    lightSection: {
+        backgroundColor: 'white'
+    },
+    darkSection: {
+        backgroundColor: 'black'
+    }
 });
 
 export {ModelScreen, MODEL_SCREEN};

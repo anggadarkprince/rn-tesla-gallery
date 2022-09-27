@@ -1,8 +1,9 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {FlatList, Image, StyleSheet, useWindowDimensions, View} from 'react-native';
-import VariantCard from "./VariantCard";
+import CardItem from "./CardItem";
+import {Video} from "expo-av";
 
-function VariantList({variants}) {
+function CarouselCard({items}) {
     const [selectedIndex, setSelectedIndex] = useState(0);
 
     const flatList = useRef();
@@ -23,17 +24,31 @@ function VariantList({variants}) {
 
     }, [selectedIndex])
 
+    const getFeature = (featured) => {
+        if (featured === null || featured === undefined) {
+            return null;
+        }
+
+        return featured.type === 'video' ? <Video
+            source={featured.source}
+            shouldPlay={true}
+            resizeMode="contain"
+            style={styles.video}
+            isLooping={true}
+        /> : <Image style={styles.image} source={featured.source}/>;
+    }
+
     return (
-        <View style={styles.variantListWrapper}>
-            <Image source={variants[selectedIndex].image} style={styles.variantListImage}/>
+        <View style={styles.container}>
+            {getFeature(items[selectedIndex].featured || null)}
             <FlatList
                 ref={flatList}
-                data={variants}
+                data={items}
                 renderItem={({item, index}) => (
-                    <VariantCard
-                        variant={item}
+                    <CardItem
+                        item={item}
                         active={index === selectedIndex}
-                        lastItem={index === variants.length - 1}
+                        lastItem={index === items.length - 1}
                         onPress={() => setSelectedIndex(index)}
                     />
                 )}
@@ -50,8 +65,9 @@ function VariantList({variants}) {
 }
 
 const styles = StyleSheet.create({
-    variantListWrapper: {marginBottom: 20},
-    variantListImage: {resizeMode: 'contain', width: '100%', height: 200, marginBottom: 20},
+    container: {marginBottom: 20},
+    video: {width: '100%', height: 230},
+    image: {resizeMode: 'contain', width: '100%', height: 200, marginBottom: 20},
 });
 
-export default VariantList;
+export default CarouselCard;
